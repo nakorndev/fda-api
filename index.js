@@ -31,8 +31,10 @@ app.post('/fda', async (req, res) => {
       number_src: req.body.number,
       type: 0
     }))
-    const value = unicodeToChar(data)
     output.found = data.search('"type":0') < 0
+    if (output.found) {
+      output.value = JSON.parse(unicodeToChar(data).split('output')[1].slice(1, -2).substr(2))
+    }
     return res.send(output)
   } catch (error) {
     console.log(error)
