@@ -17,6 +17,7 @@ function unicodeToChar (text) {
 
 app.post('/fda', async (req, res) => {
   try {
+    const output = {}
     const httpsAgent = new https.Agent({
       rejectUnauthorized: false
     })
@@ -31,7 +32,8 @@ app.post('/fda', async (req, res) => {
       type: 0
     }))
     const value = unicodeToChar(data)
-    return res.send(value)
+    output.found = data.search('"type":0') < 0
+    return res.send(output)
   } catch (error) {
     console.log(error)
     return res.send(error)
